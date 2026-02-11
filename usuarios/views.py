@@ -3,8 +3,9 @@ from django.contrib.messages import constants
 from django.contrib import messages, auth
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-from .models import Cliente
+from .models import Cliente, Documentos
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 
 
 def cadastro(request):
@@ -74,3 +75,24 @@ def clientes(request):
 
         messages.add_message(request, constants.SUCCESS, 'Cliente cadastrado com sucesso!')
         return redirect('clientes')
+    
+
+def cliente(request, id):
+    cliente = Cliente.objects.get(id=id)
+    if request.method == 'GET':
+        documentos = Documentos.objects.filter(cliente=cliente)
+        return render(request, 'cliente.html', {'cliente': cliente, 'documentos': documentos})
+    elif request.method == 'POST':
+        tipo = request.POST.get('tipo')
+        documento = request.FILES.get('documento')
+        data = request.POST.get('data')
+
+        documentos = Documentos(
+            cliente=cliente,
+            tipo=tipo,
+            arquivo=documento,
+            data_upload=data
+        )
+        documentos.save()
+
+        return redirect(reverse('cliente', kwargs={'id': cliente.id}))

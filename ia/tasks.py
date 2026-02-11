@@ -1,0 +1,10 @@
+
+
+def ocr_and_markdown_file(instance):
+    ...
+
+def rag_documentos(instance_id):
+    ...
+
+def rag_dados_empresa(instance_id):
+    ...
