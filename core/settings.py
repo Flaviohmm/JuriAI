@@ -133,3 +133,14 @@ MESSAGE_TAGS = {
     constants.SUCCESS: 'bg-green-50 text-green-700',
     constants.ERROR: 'bg-red-50 text-red-700'
 }
+
+# Configure o Django q
+
+Q_CLUSTER = {
+    "name": "pythonando",
+    "workers": 1,
+    "retry": 200,        
+    "timeout": 180,       
+    "queue_limit": 50,
+    "orm": "default",
+}
